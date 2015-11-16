@@ -114,48 +114,6 @@ class MediaPlaylistLineParser implements LineParser {
         }
     };
     
-    static final IExtTagParser EXT_X_START = new IExtTagParser() {
-        private final LineParser lineParser = new MediaPlaylistLineParser(this);
-        private final Map<String, AttributeParser<StartData.Builder>> HANDLERS = new HashMap<>();
-        
-        {
-            HANDLERS.put(Constants.TIME_OFFSET, new AttributeParser<StartData.Builder>() {
-                @Override
-                public void parse(Attribute attribute, StartData.Builder builder, ParseState state) throws ParseException {
-                    builder.withTimeOffset(ParseUtil.parseFloat(attribute.value, getTag()));
-                }
-            });
-            
-            HANDLERS.put(Constants.PRECISE, new AttributeParser<StartData.Builder>() {
-                @Override
-                public void parse(Attribute attribute, StartData.Builder builder, ParseState state) throws ParseException {
-                    builder.withPrecise(ParseUtil.parseYesNo(attribute, getTag()));
-                }
-            });
-        }
-
-        @Override
-        public String getTag() {
-            return Constants.EXT_X_START_TAG;
-        }
-
-        @Override
-        public boolean hasData() {
-            return true;
-        }
-        
-        @Override
-        public void parse(String line, ParseState state) throws ParseException {
-            lineParser.parse(line, state);
-
-            final StartData.Builder builder = new StartData.Builder();
-            ParseUtil.parseAttributes(line, builder, state, HANDLERS, getTag());
-            final StartData startData = builder.build();
-
-            state.getMedia().startData = startData;
-        }
-    };
-    
     static final IExtTagParser EXT_X_TARGETDURATION = new IExtTagParser() {
         private final LineParser lineParser = new MediaPlaylistLineParser(this);
 
