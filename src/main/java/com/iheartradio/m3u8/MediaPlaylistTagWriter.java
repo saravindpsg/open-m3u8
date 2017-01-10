@@ -216,7 +216,7 @@ abstract class MediaPlaylistTagWriter extends ExtTagWriter {
             builder.append(Float.toString(trackData.getTrackInfo().duration));
         }
 
-	builder.append(Constants.COMMA);
+	 builder.append(Constants.COMMA);
         if (trackData.getTrackInfo().title != null) {
             builder.append(trackData.getTrackInfo().title);
         }
